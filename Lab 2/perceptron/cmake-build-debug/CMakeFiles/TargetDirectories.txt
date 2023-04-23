@@ -1,0 +1,3 @@
+/mnt/d/Studies/Neuro/Lab 2/perceptron/cmake-build-debug/CMakeFiles/perceptron.dir
+/mnt/d/Studies/Neuro/Lab 2/perceptron/cmake-build-debug/CMakeFiles/edit_cache.dir
+/mnt/d/Studies/Neuro/Lab 2/perceptron/cmake-build-debug/CMakeFiles/rebuild_cache.dir
