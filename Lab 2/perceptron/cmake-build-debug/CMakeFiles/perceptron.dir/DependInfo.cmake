@@ -8,7 +8,9 @@ set(CMAKE_DEPENDS_LANGUAGES
 
 # The set of dependency files which are needed:
 set(CMAKE_DEPENDS_DEPENDENCY_FILES
+  "/mnt/d/Studies/Neuro/Lab 2/perceptron/csv_reader.cpp" "CMakeFiles/perceptron.dir/csv_reader.cpp.o" "gcc" "CMakeFiles/perceptron.dir/csv_reader.cpp.o.d"
   "/mnt/d/Studies/Neuro/Lab 2/perceptron/main.cpp" "CMakeFiles/perceptron.dir/main.cpp.o" "gcc" "CMakeFiles/perceptron.dir/main.cpp.o.d"
+  "/mnt/d/Studies/Neuro/Lab 2/perceptron/my_neuro.cpp" "CMakeFiles/perceptron.dir/my_neuro.cpp.o" "gcc" "CMakeFiles/perceptron.dir/my_neuro.cpp.o.d"
   "/mnt/d/Studies/Neuro/Lab 2/perceptron/neuro.cpp" "CMakeFiles/perceptron.dir/neuro.cpp.o" "gcc" "CMakeFiles/perceptron.dir/neuro.cpp.o.d"
   )
 

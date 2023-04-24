@@ -3,4 +3,4 @@ project(perceptron)
 
 set(CMAKE_CXX_STANDARD 14)
 
-add_executable(perceptron main.cpp neuro.cpp neuro.h)
+add_executable(perceptron main.cpp my_neuro.cpp my_neuro.h csv_reader.cpp csv_reader.h neuro.cpp neuro.h)

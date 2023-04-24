@@ -129,6 +129,30 @@ perceptron/fast:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/perceptron.dir/build.make CMakeFiles/perceptron.dir/build
 .PHONY : perceptron/fast
 
+csv_reader.o: csv_reader.cpp.o
+.PHONY : csv_reader.o
+
+# target to build an object file
+csv_reader.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/perceptron.dir/build.make CMakeFiles/perceptron.dir/csv_reader.cpp.o
+.PHONY : csv_reader.cpp.o
+
+csv_reader.i: csv_reader.cpp.i
+.PHONY : csv_reader.i
+
+# target to preprocess a source file
+csv_reader.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/perceptron.dir/build.make CMakeFiles/perceptron.dir/csv_reader.cpp.i
+.PHONY : csv_reader.cpp.i
+
+csv_reader.s: csv_reader.cpp.s
+.PHONY : csv_reader.s
+
+# target to generate assembly for a file
+csv_reader.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/perceptron.dir/build.make CMakeFiles/perceptron.dir/csv_reader.cpp.s
+.PHONY : csv_reader.cpp.s
+
 main.o: main.cpp.o
 .PHONY : main.o
 
@@ -152,6 +176,30 @@ main.s: main.cpp.s
 main.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/perceptron.dir/build.make CMakeFiles/perceptron.dir/main.cpp.s
 .PHONY : main.cpp.s
+
+my_neuro.o: my_neuro.cpp.o
+.PHONY : my_neuro.o
+
+# target to build an object file
+my_neuro.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/perceptron.dir/build.make CMakeFiles/perceptron.dir/my_neuro.cpp.o
+.PHONY : my_neuro.cpp.o
+
+my_neuro.i: my_neuro.cpp.i
+.PHONY : my_neuro.i
+
+# target to preprocess a source file
+my_neuro.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/perceptron.dir/build.make CMakeFiles/perceptron.dir/my_neuro.cpp.i
+.PHONY : my_neuro.cpp.i
+
+my_neuro.s: my_neuro.cpp.s
+.PHONY : my_neuro.s
+
+# target to generate assembly for a file
+my_neuro.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/perceptron.dir/build.make CMakeFiles/perceptron.dir/my_neuro.cpp.s
+.PHONY : my_neuro.cpp.s
 
 neuro.o: neuro.cpp.o
 .PHONY : neuro.o
@@ -186,9 +234,15 @@ help:
 	@echo "... edit_cache"
 	@echo "... rebuild_cache"
 	@echo "... perceptron"
+	@echo "... csv_reader.o"
+	@echo "... csv_reader.i"
+	@echo "... csv_reader.s"
 	@echo "... main.o"
 	@echo "... main.i"
 	@echo "... main.s"
+	@echo "... my_neuro.o"
+	@echo "... my_neuro.i"
+	@echo "... my_neuro.s"
 	@echo "... neuro.o"
 	@echo "... neuro.i"
 	@echo "... neuro.s"
