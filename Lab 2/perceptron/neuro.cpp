@@ -1,100 +1,156 @@
-#include "neuro.h"
+#include "my_neuro.h"
+#include <cmath>
+#include <vector>
 
-NeuralNet::NeuralNet(uint8_t L, uint16_t *n) {
-	CreateNeurons(L, n);
-	CreateWeights(L, n);
-	this->numLayers = L;
-	this->neuronsInLayers.resize(L);
-	for (uint8_t l = 0; l < L; l++)this->neuronsInLayers[l] = n[l];
-}
+MLP::MLP(const vector<size_t> &layer_sizes) : layer_sizes(layer_sizes) {
+    // Initialize the weights and biases for each layer
+    for (size_t i = 0; i < layer_sizes.size() - 1; i++) {
+        // Add the weight matrix for this layer
+        weights.emplace_back(layer_sizes[i] * layer_sizes[i + 1]);
 
-double NeuralNet::debug_getNeurons(uint16_t neu, uint16_t state, uint16_t layer) {
-	return this->neurons[neu][state][layer];
-}
+        // Add the bias vector for this layer
+        biases.emplace_back(layer_sizes[i + 1]);
 
-double NeuralNet::debug_getWeights(uint16_t n1, uint16_t n2, uint8_t L) {
-	return this->weights[n1][n2][L];
-}
+        weighted_inputs.emplace_back(layer_sizes[i + 1]);
 
-void NeuralNet::Forward(uint16_t size, double *data) {
-	for (int n = 0; n < size; n++) {
-		neurons[n][0][0] = data[n];
-		neurons[n][1][0] = Func(neurons[n][0][0]);
-	}
-	for (int L = 1; L < numLayers; L++) {
-		for (int N = 0; N < neuronsInLayers[L]; N++) {
-			double input = 0;
-			for (int lastN = 0; lastN < neuronsInLayers[L - 1]; lastN++) {
-				input += neurons[lastN][1][L - 1] * weights[lastN][N][L - 1];
-			}
-			neurons[N][0][L] = input;
-			neurons[N][1][L] = Func(input);
-		}
-	}
-}
-
-void NeuralNet::getResult(uint16_t size, double* data) {
-	for (uint16_t r = 0; r < size; r++) {
-		data[r] = neurons[r][1][numLayers - 1];
-	}
-}
-
-void NeuralNet::getResultRaw(uint16_t size, double* data) {
-    for (uint16_t r = 0; r < size; r++) {
-        data[r] = neurons[r][0][numLayers - 1];
+        // Initialize the weights and biases with random values
+        default_random_engine generator;
+        normal_distribution<double> distribution(0.0, 1.0);
+        for (double &j: weights[i]) {
+            j = distribution(generator);
+        }
+        for (double &j: biases[i]) {
+            j = distribution(generator);
+        }
     }
 }
 
-void NeuralNet::learnBackpropagation(double* data, double* ans, double acs, double k) {  //k - количество эпох обучения acs- скорость обучения
-	for (uint32_t e = 0; e < k; e++) {
-		double* errors = new double[neuronsInLayers[numLayers - 1]];
-		Forward(neuronsInLayers[0], data);
-		getResult(neuronsInLayers[numLayers - 1], errors);
-		for (uint16_t n = 0; n < neuronsInLayers[numLayers - 1]; n++) {
-			neurons[n][2][numLayers - 1] = (ans[n] - neurons[n][1][numLayers - 1]) * (neurons[n][1][numLayers - 1]) * (1 - neurons[n][1][numLayers - 1]);
-		}
-		for (uint8_t L = numLayers - 2; L > 0; L--) {
-			for (uint16_t neu = 0; neu < neuronsInLayers[L]; neu++) {
-				for (uint16_t lastN = 0; lastN < neuronsInLayers[L + 1]; lastN++) {
-					neurons[neu][2][L] += neurons[lastN][2][L + 1] * weights[neu][lastN][L] * neurons[neu][1][L] * (1 - neurons[neu][1][L]);
-					weights[neu][lastN][L] += neurons[neu][1][L] * neurons[lastN][2][L + 1] * acs;
-				}
-			}
-		}
-	}
+double sigmoid(double x) {
+    return 1.0 / (1.0 + exp(-SIGMOID_PARAM * x));
 }
 
-double NeuralNet::Func(double in) {
-//	return 1 / (1 + exp(-in));
-    return in;
+double sigmoid_derivative(double x) {
+    return SIGMOID_PARAM * sigmoid(x) * (1.0 - sigmoid(x));
 }
 
-double NeuralNet::Func_p(double in) {
-//	return exp(-in) / ((1 + exp(-in)) * (1 + exp(-in)));
-    return in;
+vector<double> MLP::feedforward(const vector<double> &input) {
+    // Make sure the input size matches the first layer size
+    if (input.size() != layer_sizes[0]) {
+        throw runtime_error("Input size does not match first layer size");
+    }
+
+    // Initialize the activations for the input layer
+    activations = {input};
+
+    // Calculate the activations for each layer
+    for (size_t i = 0; i < layer_sizes.size() - 1; i++) {
+        // Calculate the weighted inputs for this layer
+//            vector<double> weighted_inputs(layer_sizes[i + 1]);
+        for (size_t j = 0; j < layer_sizes[i + 1]; j++) {
+            double weighted_input = 0.0;
+            for (size_t k = 0; k < layer_sizes[i]; k++) {
+                weighted_input += weights[i][j * layer_sizes[i] + k] * activations[i][k];
+            }
+            weighted_inputs[i][j] = weighted_input + biases[i][j];
+        }
+
+        // Apply the activation function to the weighted inputs
+        vector<double> layer_activations(layer_sizes[i + 1]);
+        for (size_t j = 0; j < layer_sizes[i + 1]; j++) {
+            layer_activations[j] = sigmoid(weighted_inputs[i][j]);
+        }
+
+        // Add the layer activations to the list of activations
+        activations.push_back(layer_activations);
+    }
+
+    // Return the final layer activations
+    return activations.back();
 }
 
-uint32_t NeuralNet::MaxEl(uint16_t size, uint16_t *arr) {
-	uint16_t m = arr[0];
-	for (int i = 0; i < size; i++)if (arr[i] > m)m = arr[i];
-	return m;
+double MLP::calculate_error(vector<double> output, const vector<double> &targets, vector<double> &output_error) {
+    for (size_t j = 0; j < output.size(); j++) {
+        output_error[j] = output[j] - targets[j];
+    }
+
+    // Calculate the mean squared error for the output layer
+    double mean_squared_error = 0.0;
+    for (double j: output_error) {
+        mean_squared_error += pow(j, 2);
+    }
+    return mean_squared_error / output_error.size();
 }
 
-
-void NeuralNet::CreateNeurons(uint8_t L, uint16_t *n) {
-	neurons.resize(MaxEl(L, n));
-	for (int i = 0; i < MaxEl(L, n); i++) {
-		neurons[i].resize(3);
-		for (int j = 0; j < 3; j++)neurons[i][j].resize(L);
-	}
+void MLP::calculate_gradients(size_t layer_number, vector<double> &layer_error, vector<double> &perv_layer_error,
+                         vector<double> output_error) {
+    if (layer_number == layer_sizes.size() - 1) {
+        for (size_t j = 0; j < layer_sizes[layer_number]; j++) {
+            layer_error[j] = output_error[j] * sigmoid_derivative(weighted_inputs[layer_number - 1][j]);
+        }
+    } else {
+        for (size_t k = 0; k < layer_sizes[layer_number]; k++) {
+            double weighted_error = 0.0;
+            for (size_t l = 0; l < layer_sizes[layer_number - 1]; l++) {
+                weighted_error +=
+                        weights[layer_number - 1][k * layer_sizes[layer_number - 1] + l] * perv_layer_error[l];
+            }
+            layer_error[k] = sigmoid_derivative(weighted_inputs[layer_number - 1][k]) * weighted_error;
+        }
+    }
 }
 
-void NeuralNet::CreateWeights(uint8_t L, uint16_t *n) {
-	this->weights.resize(MaxEl(L, n));
-	for (int i = 0; i < MaxEl(L, n); i++) {
-		weights[i].resize(MaxEl(L, n));
-		for (int j = 0; j < MaxEl(L, n); j++) {
-			weights[i][j].resize(L - 1);
-		}
-	}
+void MLP::apply_backpropagation(const vector<double> &inputs, const vector<double> &output,
+                                const vector<double> &output_error,
+                                double learning_rate) {
+    vector<double> prev_layer_error;
+    for (size_t j = layer_sizes.size() - 1; j > 0; j--) {
+        vector<double> layer_error(layer_sizes[j]);
+        calculate_gradients(j, layer_error, prev_layer_error, output_error);
+        prev_layer_error = layer_error;
+        // Update the weights and biases for this layer
+        for (size_t k = 0; k < layer_sizes[j]; k++) {
+            for (size_t l = 0; l < layer_sizes[j - 1]; l++) {
+                weights[j - 1][k * layer_sizes[j - 1] + l] -=
+                        learning_rate * layer_error[k] * activations[j - 1][l];
+            }
+            biases[j - 1][k] -= learning_rate * layer_error[k];
+        }
+    }
+
+//        // Update the weights and biases for the input layer
+//        for (size_t j = 0; j < layer_sizes[0]; j++) {
+//            for (size_t k = 0; k < layer_sizes[1]; k++) {
+//                weights[0][k * layer_sizes[0] + j] -=
+//                        learning_rate * output_error[k] * sigmoid_derivative(output[k]) * inputs[j];
+//            }
+//            biases[0][j] -= learning_rate * output_error[j] * sigmoid_derivative(output[j]);
+//        }
+}
+
+void MLP::train(const vector<vector<double>> &inputs, const vector<vector<double>> &targets, size_t epochs,
+                double learning_rate) {
+    // Make sure the number of input rows matches the number of target rows
+    if (inputs.size() != targets.size()) {
+        throw runtime_error("Number of input rows does not match number of target rows");
+    }
+    for (size_t epoch = 0; epoch < epochs; epoch++) {
+        // Shuffle the input and target rows
+        vector<size_t> indices(inputs.size());
+        for (size_t i = 0; i < inputs.size(); i++) {
+            indices[i] = i;
+        }
+        shuffle(indices.begin(), indices.end(), default_random_engine());
+        double epoch_loss = 0.0;
+        for (size_t i = 0; i < inputs.size(); i++) {
+            vector<double> output = feedforward(inputs[indices[i]]);
+            vector<double> output_error(output.size());
+            double mean_squared_error = calculate_error(output, targets[indices[i]], output_error);
+//                cout << i << ". MSE = " << mean_squared_error << endl;
+            epoch_loss += mean_squared_error;
+            apply_backpropagation(inputs[indices[i]], output, output_error, learning_rate);
+        }
+        // Calculate and print the average loss for this epoch
+        epoch_loss /= inputs.size();
+        cout << "Epoch " << epoch + 1 << " loss: " << epoch_loss << endl;
+    }
 }

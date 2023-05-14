@@ -1,31 +1,41 @@
-#pragma once
-#ifndef __NEURO_H__
-#define __NEURO_H__
+#ifndef PERCEPTRON_NEURO_H
+#define PERCEPTRON_NEURO_H
 
+
+#include <iostream>
 #include <vector>
-#include <math.h>
-#include <stdint.h>
-using namespace std;
-class NeuralNet {
-public:
-    NeuralNet(uint8_t L, uint16_t *n);
-    double debug_getNeurons(uint16_t neu, uint16_t state, uint16_t layer);
-    double debug_getWeights(uint16_t n1, uint16_t n2, uint8_t L);
-    void Forward(uint16_t size, double *data);
-    void getResult(uint16_t size, double* data);
-    void getResultRaw(uint16_t size, double* data);
-    void learnBackpropagation(double* data, double* ans, double acs, double k);
-private:
-    vector<vector<vector<double>>> neurons;
-    vector<vector<vector<double>>> weights;
-    uint8_t numLayers;
-    vector<double> neuronsInLayers;
-    double Func(double in);
-    double Func_p(double in);
-    uint32_t MaxEl(uint16_t size, uint16_t *arr);
-    void CreateNeurons(uint8_t L, uint16_t *n);
-    void CreateWeights(uint8_t L, uint16_t *n);
+#include <cmath>
+#include <random>
+#include <algorithm>
 
+
+#define SIGMOID_PARAM 2.5
+
+using namespace std;
+
+class MLP {
+private:
+    vector<size_t> layer_sizes;
+    vector<vector<double>> weights;
+    vector<vector<double>> biases;
+    vector<vector<double>> activations;
+    vector<vector<double>> weighted_inputs;
+
+    void apply_backpropagation(const vector<double> &inputs, const vector<double> &output,
+                               const vector<double> &output_error,
+                               double learning_rate);
+
+    double calculate_error(vector<double> output, const vector<double> &targets, vector<double> &output_error);
+
+    void calculate_gradients(size_t layer_number, vector<double> &layer_error, vector<double> &perv_layer_error,
+                             vector<double> output_error);
+public:
+    explicit MLP(const vector<size_t> &layer_sizes);
+
+    vector<double> feedforward(const vector<double> &input);
+
+    void train(const vector<vector<double>> &inputs, const vector<vector<double>> &targets, size_t epochs,
+               double learning_rate);
 };
 
-#endif
+#endif //PERCEPTRON_NEURO_H
