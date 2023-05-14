@@ -6,6 +6,7 @@
 #include <iomanip>
 #include "my_neuro.h"
 #include "csv_reader.h"
+#include "neuro.h"
 
 using namespace std;
 
@@ -18,7 +19,7 @@ using namespace std;
 //}
 
 
-vector<vector<string>> parse_csv(const string& filename, char delimiter = ',') {
+vector<vector<string>> parse_csv(const string &filename, char delimiter = ',') {
     // Open the CSV file for reading
     ifstream file(filename);
 
@@ -47,12 +48,12 @@ vector<vector<string>> parse_csv(const string& filename, char delimiter = ',') {
 }
 
 
-vector<vector<string>> remove_column(const vector<vector<string>>& data, int col_index) {
+vector<vector<string>> remove_column(const vector<vector<string>> &data, int col_index) {
     // Create a new vector to hold the result
     vector<vector<string>> result;
 
     // Iterate over the rows of the input data
-    for (const auto & i : data) {
+    for (const auto &i: data) {
         // Create a new row vector to hold the filtered columns
         vector<string> row;
 
@@ -72,7 +73,7 @@ vector<vector<string>> remove_column(const vector<vector<string>>& data, int col
     return result;
 }
 
-vector<vector<string>> remove_row(const vector<vector<string>>& data, int row_index) {
+vector<vector<string>> remove_row(const vector<vector<string>> &data, int row_index) {
     // Create a new vector to hold the result
     vector<vector<string>> result;
 
@@ -90,7 +91,7 @@ vector<vector<string>> remove_row(const vector<vector<string>>& data, int row_in
     return result;
 }
 
-vector<string> get_column(const vector<vector<string>>& data, int col_index) {
+vector<string> get_column(const vector<vector<string>> &data, int col_index) {
     // Create a new vector to hold the result
     vector<string> result;
 
@@ -103,7 +104,7 @@ vector<string> get_column(const vector<vector<string>>& data, int col_index) {
     return result;
 }
 
-vector<vector<double>> convert_to_doubles(const vector<vector<string>>& data) {
+vector<vector<double>> convert_to_doubles(const vector<vector<string>> &data) {
     // Create a new vector to hold the result
     vector<vector<double>> result;
 
@@ -129,12 +130,12 @@ vector<vector<double>> convert_to_doubles(const vector<vector<string>>& data) {
     return result;
 }
 
-vector<double> convert_to_doubles(const vector<string>& data) {
+vector<double> convert_to_doubles(const vector<string> &data) {
     // Create a new vector to hold the result
     vector<double> result;
 
     // Iterate over the input data
-    for (const auto& value : data) {
+    for (const auto &value: data) {
         // Convert the string value to a double
         double double_value;
         istringstream(value) >> double_value;
@@ -146,7 +147,7 @@ vector<double> convert_to_doubles(const vector<string>& data) {
     return result;
 }
 
-size_t get_num_columns(const vector<vector<double>>& data) {
+size_t get_num_columns(const vector<vector<double>> &data) {
     // If there are no rows, return 0
     if (data.empty()) {
         return 0;
@@ -156,16 +157,16 @@ size_t get_num_columns(const vector<vector<double>>& data) {
     return data[0].size();
 }
 
-void print_table(const vector<vector<string>>& data) {
-    for (const auto& row : data) {
-        for (const auto& field : row) {
+void print_table(const vector<vector<string>> &data) {
+    for (const auto &row: data) {
+        for (const auto &field: row) {
             cout << field << " ";
         }
         cout << endl;
     }
 }
 
-vector<vector<string>> get_last_two_columns(const vector<vector<string>>& table) {
+vector<vector<string>> get_last_two_columns(const vector<vector<string>> &table) {
     vector<vector<string>> result(table.size());
     for (size_t i = 0; i < table.size(); i++) {
         result[i].resize(2);
@@ -173,6 +174,25 @@ vector<vector<string>> get_last_two_columns(const vector<vector<string>>& table)
         result[i][1] = table[i][table[i].size() - 1];
     }
     return result;
+}
+
+double* vectorOfVectorsToArray(vector<vector<double>> v) {
+    int rows = v.size();
+    int cols = v[0].size();
+
+    double* arr = new double[rows * cols];
+
+    for (int i = 0; i < rows; i++) {
+        for (int j = 0; j < cols; j++) {
+            arr[i * cols + j] = v[i][j];
+        }
+    }
+
+    return arr;
+}
+
+vector<double> get_row(vector<vector<double>> matrix, int row) {
+    return matrix[row];
 }
 
 
@@ -191,28 +211,45 @@ int main() {
 //    vector<double> kgf = convert_to_doubles(kgf_string);
     vector<std::vector<double>> targets = convert_to_doubles(targets_string);
 
-//    Perceptron perceptron(23, 0.001, sigmoid, sigmoid_derivative);
-    // train OR gate
-//    vector<vector<double>> training_data = {{0, 0},
-//                                            {0, 1},
-//                                            {1, 0},
-//                                            {1, 1}};
-//    vector<double> targets = {0, 1, 1, 1};
+    size_t features_num = get_num_columns(dataset_without_target);
 
-    MLP mlp({get_num_columns(dataset_without_target), 50, 50, 2});
-    mlp.train(dataset_without_target, targets, 1, 0.001);
+//    MLP mlp({get_num_columns(dataset_without_target), 50, 50, 2});
+//    mlp.train(dataset_without_target, targets, 1, 0.001);
+//
+//    vector<double> result = mlp.feedforward(dataset_without_target[0]);
+//    cout << endl;
+//    cout << "Predicted: " << result[0] << " " << result[1] << endl;
+//    cout << "Real: " << targets[0][0] << " " << targets[0][1] << endl;
 
-    vector<double> result = mlp.feedforward(dataset_without_target[0]);
-    cout << endl;
-    cout << "Predicted: " << result[0] << " " << result[1] << endl;
-    cout << "Real: " << targets[0][0] << " " << targets[0][1] << endl;
 
-    // test OR gate
-//    for (int i = 0; i < 4; i++) {
-//        double result = perceptron.feed_forward(training_data[i]);
-//        cout << training_data[i][0] << " OR " << training_data[i][1] << " = "
-//             << (result > 0.5) << " (" << result << ") " << endl;
-//    }
+    std::vector<std::vector<double>> inputs = {{0, 0},
+                                               {0, 1},
+                                               {1, 0},
+                                               {1, 1}};
+    std::vector<std::vector<double>> targets2 = {{0},
+                                                {1},
+                                                {1},
+                                                {0}};
+    MLP mlp({2, 3, 1}, 0.5);
+    mlp.train(inputs, targets2, 1000);
 
+    for (int i = 0; i < inputs.size(); i++) {
+        std::vector<double> input = inputs[i];
+        std::vector<double> output = mlp.forward(input);
+        std::cout << "Input: " << input[0] << " " << input[1] << " Output: " << output[0] << std::endl;
+    }
+
+
+
+//    auto sizes = new uint16_t[]{23, 50, 50, 2};
+//    double* data = vectorOfVectorsToArray(dataset_without_target);
+//    double* dtargets = vectorOfVectorsToArray(targets);
+//    NeuralNet neuralNet(4, sizes);
+//    neuralNet.learnBackpropagation(data, dtargets, 0.01, 100);
+//    neuralNet.Forward(features_num, data);
+//    double output[2] = {0};
+//    neuralNet.getResult(2, output);
+//    cout << "Predicted: " << output[0] << " " << output[1] << endl;
+//    cout << "Real: " << targets[0][0] << " " << targets[0][1] << endl;
     return 0;
 }
