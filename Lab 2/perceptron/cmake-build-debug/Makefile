@@ -177,30 +177,6 @@ main.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/perceptron.dir/build.make CMakeFiles/perceptron.dir/main.cpp.s
 .PHONY : main.cpp.s
 
-my_neuro.o: my_neuro.cpp.o
-.PHONY : my_neuro.o
-
-# target to build an object file
-my_neuro.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/perceptron.dir/build.make CMakeFiles/perceptron.dir/my_neuro.cpp.o
-.PHONY : my_neuro.cpp.o
-
-my_neuro.i: my_neuro.cpp.i
-.PHONY : my_neuro.i
-
-# target to preprocess a source file
-my_neuro.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/perceptron.dir/build.make CMakeFiles/perceptron.dir/my_neuro.cpp.i
-.PHONY : my_neuro.cpp.i
-
-my_neuro.s: my_neuro.cpp.s
-.PHONY : my_neuro.s
-
-# target to generate assembly for a file
-my_neuro.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/perceptron.dir/build.make CMakeFiles/perceptron.dir/my_neuro.cpp.s
-.PHONY : my_neuro.cpp.s
-
 neuro.o: neuro.cpp.o
 .PHONY : neuro.o
 
@@ -240,9 +216,6 @@ help:
 	@echo "... main.o"
 	@echo "... main.i"
 	@echo "... main.s"
-	@echo "... my_neuro.o"
-	@echo "... my_neuro.i"
-	@echo "... my_neuro.s"
 	@echo "... neuro.o"
 	@echo "... neuro.i"
 	@echo "... neuro.s"

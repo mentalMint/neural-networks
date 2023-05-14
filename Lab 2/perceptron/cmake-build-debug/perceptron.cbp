@@ -91,12 +91,6 @@
 		<Unit filename="/mnt/d/Studies/Neuro/Lab 2/perceptron/main.cpp">
 			<Option target="perceptron"/>
 		</Unit>
-		<Unit filename="/mnt/d/Studies/Neuro/Lab 2/perceptron/my_neuro.cpp">
-			<Option target="perceptron"/>
-		</Unit>
-		<Unit filename="/mnt/d/Studies/Neuro/Lab 2/perceptron/my_neuro.h">
-			<Option target="perceptron"/>
-		</Unit>
 		<Unit filename="/mnt/d/Studies/Neuro/Lab 2/perceptron/neuro.cpp">
 			<Option target="perceptron"/>
 		</Unit>

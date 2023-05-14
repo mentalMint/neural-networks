@@ -1,1 +1,1 @@
-/usr/bin/clang++ -g CMakeFiles/perceptron.dir/main.cpp.o CMakeFiles/perceptron.dir/my_neuro.cpp.o CMakeFiles/perceptron.dir/csv_reader.cpp.o CMakeFiles/perceptron.dir/neuro.cpp.o -o perceptron 
+/usr/bin/clang++ -O3 CMakeFiles/perceptron.dir/main.cpp.o CMakeFiles/perceptron.dir/neuro.cpp.o CMakeFiles/perceptron.dir/csv_reader.cpp.o -o perceptron 

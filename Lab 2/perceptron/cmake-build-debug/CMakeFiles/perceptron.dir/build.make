@@ -83,19 +83,19 @@ CMakeFiles/perceptron.dir/main.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/perceptron.dir/main.cpp.s"
 	/usr/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S "/mnt/d/Studies/Neuro/Lab 2/perceptron/main.cpp" -o CMakeFiles/perceptron.dir/main.cpp.s
 
-CMakeFiles/perceptron.dir/my_neuro.cpp.o: CMakeFiles/perceptron.dir/flags.make
-CMakeFiles/perceptron.dir/my_neuro.cpp.o: /mnt/d/Studies/Neuro/Lab\ 2/perceptron/my_neuro.cpp
-CMakeFiles/perceptron.dir/my_neuro.cpp.o: CMakeFiles/perceptron.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir="/mnt/d/Studies/Neuro/Lab 2/perceptron/cmake-build-debug/CMakeFiles" --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/perceptron.dir/my_neuro.cpp.o"
-	/usr/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/perceptron.dir/my_neuro.cpp.o -MF CMakeFiles/perceptron.dir/my_neuro.cpp.o.d -o CMakeFiles/perceptron.dir/my_neuro.cpp.o -c "/mnt/d/Studies/Neuro/Lab 2/perceptron/my_neuro.cpp"
+CMakeFiles/perceptron.dir/neuro.cpp.o: CMakeFiles/perceptron.dir/flags.make
+CMakeFiles/perceptron.dir/neuro.cpp.o: /mnt/d/Studies/Neuro/Lab\ 2/perceptron/neuro.cpp
+CMakeFiles/perceptron.dir/neuro.cpp.o: CMakeFiles/perceptron.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir="/mnt/d/Studies/Neuro/Lab 2/perceptron/cmake-build-debug/CMakeFiles" --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/perceptron.dir/neuro.cpp.o"
+	/usr/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/perceptron.dir/neuro.cpp.o -MF CMakeFiles/perceptron.dir/neuro.cpp.o.d -o CMakeFiles/perceptron.dir/neuro.cpp.o -c "/mnt/d/Studies/Neuro/Lab 2/perceptron/neuro.cpp"
 
-CMakeFiles/perceptron.dir/my_neuro.cpp.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/perceptron.dir/my_neuro.cpp.i"
-	/usr/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E "/mnt/d/Studies/Neuro/Lab 2/perceptron/my_neuro.cpp" > CMakeFiles/perceptron.dir/my_neuro.cpp.i
+CMakeFiles/perceptron.dir/neuro.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/perceptron.dir/neuro.cpp.i"
+	/usr/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E "/mnt/d/Studies/Neuro/Lab 2/perceptron/neuro.cpp" > CMakeFiles/perceptron.dir/neuro.cpp.i
 
-CMakeFiles/perceptron.dir/my_neuro.cpp.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/perceptron.dir/my_neuro.cpp.s"
-	/usr/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S "/mnt/d/Studies/Neuro/Lab 2/perceptron/my_neuro.cpp" -o CMakeFiles/perceptron.dir/my_neuro.cpp.s
+CMakeFiles/perceptron.dir/neuro.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/perceptron.dir/neuro.cpp.s"
+	/usr/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S "/mnt/d/Studies/Neuro/Lab 2/perceptron/neuro.cpp" -o CMakeFiles/perceptron.dir/neuro.cpp.s
 
 CMakeFiles/perceptron.dir/csv_reader.cpp.o: CMakeFiles/perceptron.dir/flags.make
 CMakeFiles/perceptron.dir/csv_reader.cpp.o: /mnt/d/Studies/Neuro/Lab\ 2/perceptron/csv_reader.cpp
@@ -111,37 +111,21 @@ CMakeFiles/perceptron.dir/csv_reader.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/perceptron.dir/csv_reader.cpp.s"
 	/usr/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S "/mnt/d/Studies/Neuro/Lab 2/perceptron/csv_reader.cpp" -o CMakeFiles/perceptron.dir/csv_reader.cpp.s
 
-CMakeFiles/perceptron.dir/neuro.cpp.o: CMakeFiles/perceptron.dir/flags.make
-CMakeFiles/perceptron.dir/neuro.cpp.o: /mnt/d/Studies/Neuro/Lab\ 2/perceptron/neuro.cpp
-CMakeFiles/perceptron.dir/neuro.cpp.o: CMakeFiles/perceptron.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir="/mnt/d/Studies/Neuro/Lab 2/perceptron/cmake-build-debug/CMakeFiles" --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object CMakeFiles/perceptron.dir/neuro.cpp.o"
-	/usr/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/perceptron.dir/neuro.cpp.o -MF CMakeFiles/perceptron.dir/neuro.cpp.o.d -o CMakeFiles/perceptron.dir/neuro.cpp.o -c "/mnt/d/Studies/Neuro/Lab 2/perceptron/neuro.cpp"
-
-CMakeFiles/perceptron.dir/neuro.cpp.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/perceptron.dir/neuro.cpp.i"
-	/usr/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E "/mnt/d/Studies/Neuro/Lab 2/perceptron/neuro.cpp" > CMakeFiles/perceptron.dir/neuro.cpp.i
-
-CMakeFiles/perceptron.dir/neuro.cpp.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/perceptron.dir/neuro.cpp.s"
-	/usr/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S "/mnt/d/Studies/Neuro/Lab 2/perceptron/neuro.cpp" -o CMakeFiles/perceptron.dir/neuro.cpp.s
-
 # Object files for target perceptron
 perceptron_OBJECTS = \
 "CMakeFiles/perceptron.dir/main.cpp.o" \
-"CMakeFiles/perceptron.dir/my_neuro.cpp.o" \
-"CMakeFiles/perceptron.dir/csv_reader.cpp.o" \
-"CMakeFiles/perceptron.dir/neuro.cpp.o"
+"CMakeFiles/perceptron.dir/neuro.cpp.o" \
+"CMakeFiles/perceptron.dir/csv_reader.cpp.o"
 
 # External object files for target perceptron
 perceptron_EXTERNAL_OBJECTS =
 
 perceptron: CMakeFiles/perceptron.dir/main.cpp.o
-perceptron: CMakeFiles/perceptron.dir/my_neuro.cpp.o
-perceptron: CMakeFiles/perceptron.dir/csv_reader.cpp.o
 perceptron: CMakeFiles/perceptron.dir/neuro.cpp.o
+perceptron: CMakeFiles/perceptron.dir/csv_reader.cpp.o
 perceptron: CMakeFiles/perceptron.dir/build.make
 perceptron: CMakeFiles/perceptron.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir="/mnt/d/Studies/Neuro/Lab 2/perceptron/cmake-build-debug/CMakeFiles" --progress-num=$(CMAKE_PROGRESS_5) "Linking CXX executable perceptron"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir="/mnt/d/Studies/Neuro/Lab 2/perceptron/cmake-build-debug/CMakeFiles" --progress-num=$(CMAKE_PROGRESS_4) "Linking CXX executable perceptron"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/perceptron.dir/link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.

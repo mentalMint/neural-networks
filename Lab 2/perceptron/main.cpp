@@ -1,12 +1,9 @@
 #include <iostream>
-#include <cmath>
 #include <vector>
+#include "neuro.h"
+#include <string>
 #include <sstream>
 #include <fstream>
-#include <iomanip>
-#include "my_neuro.h"
-#include "csv_reader.h"
-#include "neuro.h"
 
 using namespace std;
 
@@ -18,26 +15,37 @@ using namespace std;
 //    return sigmoid * (1 - sigmoid);
 //}
 
-
 vector<vector<string>> parse_csv(const string &filename, char delimiter = ',') {
     // Open the CSV file for reading
     ifstream file(filename);
 
     // Initialize the result vector
     vector<vector<string>> result;
+    bool skip = false;
 
     // Read each line of the file and split it into fields
     string line;
     while (getline(file, line)) {
         vector<string> fields;
 
-        // Use a stringstream to split the line into fields
+        // Use a string stream to split the line into fields
         stringstream ss(line);
         string field;
         while (getline(ss, field, delimiter)) {
+//            if (field.empty()) {
+//                skip = true;
+//                break;
+//            }
             fields.push_back(field);
+//            cout << field << ", ";
         }
+//        cout << endl;
 
+//        if (skip) {
+//            cout << "skip" << endl;
+//            skip = false;
+//            continue;
+//        }
         // Add the fields to the result vector
         result.push_back(fields);
     }
@@ -96,9 +104,9 @@ vector<string> get_column(const vector<vector<string>> &data, int col_index) {
     vector<string> result;
 
     // Iterate over the rows of the input data
-    for (size_t i = 0; i < data.size(); ++i) {
+    for (const auto & i : data) {
         // Add the value in the desired column to the result vector
-        result.push_back(data[i][col_index]);
+        result.push_back(i[col_index]);
     }
 
     return result;
@@ -109,16 +117,14 @@ vector<vector<double>> convert_to_doubles(const vector<vector<string>> &data) {
     vector<vector<double>> result;
 
     // Iterate over the rows of the input data
-    for (size_t i = 0; i < data.size(); ++i) {
+    for (const auto & i : data) {
         // Create a new row vector to hold the converted values
         vector<double> row;
-
         // Iterate over the columns of the input data
-        for (size_t j = 0; j < data[i].size(); ++j) {
+        for (const auto & j : i) {
             // Convert the string value to a double
             double value;
-            istringstream(data[i][j]) >> value;
-
+            istringstream(j) >> value;
             // Add the converted value to the row vector
             row.push_back(value);
         }
@@ -180,7 +186,7 @@ double* vectorOfVectorsToArray(vector<vector<double>> v) {
     int rows = v.size();
     int cols = v[0].size();
 
-    double* arr = new double[rows * cols];
+    auto* arr = new double[rows * cols];
 
     for (int i = 0; i < rows; i++) {
         for (int j = 0; j < cols; j++) {
@@ -195,61 +201,59 @@ vector<double> get_row(vector<vector<double>> matrix, int row) {
     return matrix[row];
 }
 
-
-int main() {
-    vector<std::vector<std::string>> dataset = parse_csv("//mnt/d/Studies/Neuro/Lab 2/perceptron/prepared_dataset.csv");
-    vector<std::vector<std::string>> dataset_without_target_string = remove_column(dataset, 0);
-//    print_table(dataset_without_target_string);
-//    vector<std::string> g_total_string = get_column(dataset_without_target_string, 23);
-//    vector<std::string> kgf_string = get_column(dataset_without_target_string, 23);
-    dataset_without_target_string = remove_row(dataset_without_target_string, 0);
-    vector<std::vector<std::string>> targets_string = get_last_two_columns(dataset_without_target_string);
-    dataset_without_target_string = remove_column(dataset_without_target_string, 23);
-    dataset_without_target_string = remove_column(dataset_without_target_string, 23);
-    vector<std::vector<double>> dataset_without_target = convert_to_doubles(dataset_without_target_string);
-//    vector<double> g_total = convert_to_doubles(g_total_string);
-//    vector<double> kgf = convert_to_doubles(kgf_string);
-    vector<std::vector<double>> targets = convert_to_doubles(targets_string);
-
-    size_t features_num = get_num_columns(dataset_without_target);
-
-//    MLP mlp({get_num_columns(dataset_without_target), 50, 50, 2});
-//    mlp.train(dataset_without_target, targets, 1, 0.001);
-//
-//    vector<double> result = mlp.feedforward(dataset_without_target[0]);
-//    cout << endl;
-//    cout << "Predicted: " << result[0] << " " << result[1] << endl;
-//    cout << "Real: " << targets[0][0] << " " << targets[0][1] << endl;
-
-
-    std::vector<std::vector<double>> inputs = {{0, 0},
-                                               {0, 1},
-                                               {1, 0},
-                                               {1, 1}};
-    std::vector<std::vector<double>> targets2 = {{0},
-                                                {1},
-                                                {1},
-                                                {0}};
-    MLP mlp({2, 3, 1}, 0.5);
-    mlp.train(inputs, targets2, 1000);
-
-    for (int i = 0; i < inputs.size(); i++) {
-        std::vector<double> input = inputs[i];
-        std::vector<double> output = mlp.forward(input);
-        std::cout << "Input: " << input[0] << " " << input[1] << " Output: " << output[0] << std::endl;
+void normalize_column(vector<vector<double>> &matrix, vector<vector<double>> &normalized_matrix, size_t col_index) {
+    // Find the minimum and maximum values in the column
+    double min_val = matrix[0][col_index];
+    double max_val = matrix[0][col_index];
+    for (size_t i = 1; i < matrix.size(); i++) {
+        min_val = min(min_val, matrix[i][col_index]);
+        max_val = max(max_val, matrix[i][col_index]);
     }
 
+    // Subtract the minimum value from every element in the column and divide by the difference of max and min values
+    double diff = max_val - min_val;
+    for (size_t i = 0; i < matrix.size(); i++) {
+        normalized_matrix[i][col_index] = (matrix[i][col_index] - min_val) / diff;
+    }
+}
 
+pair<vector<vector<double>>, vector<vector<double>>> split(const vector<vector<double>>& matrix, size_t split_row) {
+    if (split_row >= matrix.size()) {
+        throw runtime_error("Split row index is out of range");
+    }
+    vector<vector<double>> first_half(matrix.begin(), matrix.begin() + split_row + 1);
+    vector<vector<double>> second_half(matrix.begin() + split_row + 1, matrix.end());
+    return make_pair(first_half, second_half);
+}
 
-//    auto sizes = new uint16_t[]{23, 50, 50, 2};
-//    double* data = vectorOfVectorsToArray(dataset_without_target);
-//    double* dtargets = vectorOfVectorsToArray(targets);
-//    NeuralNet neuralNet(4, sizes);
-//    neuralNet.learnBackpropagation(data, dtargets, 0.01, 100);
-//    neuralNet.Forward(features_num, data);
-//    double output[2] = {0};
-//    neuralNet.getResult(2, output);
-//    cout << "Predicted: " << output[0] << " " << output[1] << endl;
-//    cout << "Real: " << targets[0][0] << " " << targets[0][1] << endl;
+void shuffle_rows(vector<vector<string>>& data) {
+    random_device rd;
+    mt19937 gen(rd());
+    shuffle(data.begin(), data.end(), gen);
+}
+
+int main() {
+    vector<vector<std::string>> dataset = parse_csv("//mnt/d/Studies/Neuro/Lab 2/perceptron/prepared_dataset.csv");
+    vector<vector<std::string>> dataset_without_target_string = remove_column(dataset, 0);
+    dataset_without_target_string = remove_row(dataset_without_target_string, 0);
+    shuffle_rows(dataset_without_target_string);
+    vector<vector<string>> targets_string = get_last_two_columns(dataset_without_target_string);
+    dataset_without_target_string = remove_column(dataset_without_target_string, 23);
+    dataset_without_target_string = remove_column(dataset_without_target_string, 23);
+    vector<vector<double>> dataset_without_target = convert_to_doubles(dataset_without_target_string);
+    vector<vector<double>> targets0 = convert_to_doubles(targets_string);
+    pair<vector<vector<double>>, vector<vector<double>>> datasets = split(dataset_without_target, 17);
+    pair<vector<vector<double>>, vector<vector<double>>> targets = split(targets0, 17);
+
+    size_t features_num = get_num_columns(dataset_without_target);
+    MLP mlp({features_num, 40, 40, 2});
+    mlp.train(datasets.first, targets.first, 5000, 0.01);
+
+    for (size_t i = 0; i < datasets.second.size(); i++) {
+        vector<double> result = mlp.feedforward(datasets.second[i]);
+        cout << endl;
+        cout << "Predicted: " << result[0] << " " << result[1] << endl;
+        cout << "Real: " << targets.second[i][0] << " " << targets.second[i][1] << endl;
+    }
     return 0;
 }

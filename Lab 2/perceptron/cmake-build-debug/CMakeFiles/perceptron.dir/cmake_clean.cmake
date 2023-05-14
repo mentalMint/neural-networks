@@ -3,8 +3,6 @@ file(REMOVE_RECURSE
   "CMakeFiles/perceptron.dir/csv_reader.cpp.o.d"
   "CMakeFiles/perceptron.dir/main.cpp.o"
   "CMakeFiles/perceptron.dir/main.cpp.o.d"
-  "CMakeFiles/perceptron.dir/my_neuro.cpp.o"
-  "CMakeFiles/perceptron.dir/my_neuro.cpp.o.d"
   "CMakeFiles/perceptron.dir/neuro.cpp.o"
   "CMakeFiles/perceptron.dir/neuro.cpp.o.d"
   "perceptron"
