@@ -1,19 +1,16 @@
 #include "neuro.h"
 #include <cmath>
 #include <vector>
+#include <fstream>
+
+#define SIGMOID_PARAM 2.5
 
 MLP::MLP(const vector<size_t> &layer_sizes) : layer_sizes(layer_sizes) {
-    // Initialize the weights and biases for each layer
     for (size_t i = 0; i < layer_sizes.size() - 1; i++) {
-        // Add the weight matrix for this layer
         weights.emplace_back(layer_sizes[i] * layer_sizes[i + 1]);
-
-        // Add the bias vector for this layer
         biases.emplace_back(layer_sizes[i + 1]);
-
         weighted_inputs.emplace_back(layer_sizes[i + 1]);
 
-        // Initialize the weights and biases with random values
         default_random_engine generator;
         normal_distribution<double> distribution(0.0, 1.0);
         for (double &j: weights[i]) {
@@ -23,6 +20,14 @@ MLP::MLP(const vector<size_t> &layer_sizes) : layer_sizes(layer_sizes) {
             j = distribution(generator);
         }
     }
+//    mse_file << "Epoch, Value" << endl;
+//    mae_file << "Epoch, Value" << endl;
+//    r_squared_file << "Epoch, Value" << endl;
+    results << "Epoch";
+    for (int i = 0; i < layer_sizes[layer_sizes.size() - 1]; i++) {
+        results << ",Predicted " << i << ",Real " << i;
+    }
+    results << endl;
 }
 
 double sigmoid(double x) {
@@ -68,21 +73,30 @@ vector<double> MLP::feedforward(const vector<double> &input) {
     return activations.back();
 }
 
-double MLP::calculate_error(vector<double> output, const vector<double> &targets, vector<double> &output_error) {
+void MLP::calculate_error(vector<double> output, const vector<double> &targets, vector<double> &output_error) {
     for (size_t j = 0; j < output.size(); j++) {
         output_error[j] = output[j] - targets[j];
+        results << "," << output[j] << "," << targets[j];
     }
+    results << endl;
 
-    // Calculate the mean squared error for the output layer
-    double mean_squared_error = 0.0;
-    for (double j: output_error) {
-        mean_squared_error += pow(j, 2);
-    }
-    return mean_squared_error / output_error.size();
+//    double mean_squared_error_part = 0.0;
+//    for (double j: output_error) {
+//        mean_squared_error_part += pow(j, 2);
+//    }
+//    mean_squared_error_part /= output_error.size();
+//    mean_squared_error += mean_squared_error_part;
+//
+//    double mean_absolute_error_part = 0.0;
+//    for (double j: output_error) {
+//        mean_absolute_error_part += abs(j);
+//    }
+//    mean_absolute_error_part /= output_error.size();
+//    mean_absolute_error += mean_absolute_error_part;
 }
 
 void MLP::calculate_gradients(size_t layer_number, vector<double> &layer_error, vector<double> &perv_layer_error,
-                         vector<double> output_error) {
+                              vector<double> output_error) {
     if (layer_number == layer_sizes.size() - 1) {
         for (size_t j = 0; j < layer_sizes[layer_number]; j++) {
             layer_error[j] = output_error[j] * sigmoid_derivative(weighted_inputs[layer_number - 1][j]);
@@ -116,24 +130,17 @@ void MLP::apply_backpropagation(const vector<double> &inputs, const vector<doubl
             biases[j - 1][k] -= learning_rate * layer_error[k];
         }
     }
-
-//        // Update the weights and biases for the input layer
-//        for (size_t j = 0; j < layer_sizes[0]; j++) {
-//            for (size_t k = 0; k < layer_sizes[1]; k++) {
-//                weights[0][k * layer_sizes[0] + j] -=
-//                        learning_rate * output_error[k] * sigmoid_derivative(output[k]) * inputs[j];
-//            }
-//            biases[0][j] -= learning_rate * output_error[j] * sigmoid_derivative(output[j]);
-//        }
 }
 
 void MLP::train(const vector<vector<double>> &inputs, const vector<vector<double>> &targets, size_t epochs,
                 double learning_rate) {
-    // Make sure the number of input rows matches the number of target rows
     if (inputs.size() != targets.size()) {
         throw runtime_error("Number of input rows does not match number of target rows");
     }
     for (size_t epoch = 0; epoch < epochs; epoch++) {
+//        mean_squared_error = 0.0;
+//        mean_absolute_error = 0.0;
+
         // Shuffle the input and target rows
         vector<size_t> indices(inputs.size());
         for (size_t i = 0; i < inputs.size(); i++) {
@@ -144,13 +151,14 @@ void MLP::train(const vector<vector<double>> &inputs, const vector<vector<double
         for (size_t i = 0; i < inputs.size(); i++) {
             vector<double> output = feedforward(inputs[indices[i]]);
             vector<double> output_error(output.size());
-            double mean_squared_error = calculate_error(output, targets[indices[i]], output_error);
-//                cout << i << ". MSE = " << mean_squared_error << endl;
-            epoch_loss += mean_squared_error;
+            results << epoch + 1;
+            calculate_error(output, targets[indices[i]], output_error);
             apply_backpropagation(inputs[indices[i]], output, output_error, learning_rate);
         }
-        // Calculate and print the average loss for this epoch
-        epoch_loss /= inputs.size();
-        cout << "Epoch " << epoch + 1 << " loss: " << epoch_loss << endl;
+
+//        mean_squared_error /= inputs.size();
+//        mean_absolute_error /= inputs.size();
+//        mse_file << epoch + 1 << ", " << mean_squared_error << endl;
+//        mae_file << epoch + 1 << ", " << mean_absolute_error << endl;
     }
 }

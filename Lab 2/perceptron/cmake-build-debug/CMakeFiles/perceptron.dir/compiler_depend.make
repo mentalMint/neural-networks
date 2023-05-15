@@ -212,13 +212,13 @@ CMakeFiles/perceptron.dir/main.cpp.o: /mnt/d/Studies/Neuro/Lab\ 2/perceptron/mai
   /usr/include/c++/9/bits/algorithmfwd.h \
   /usr/include/c++/9/bits/stl_heap.h \
   /usr/include/c++/9/bits/stl_tempbuf.h \
-  /usr/include/c++/9/sstream \
-  /usr/include/c++/9/bits/sstream.tcc \
   /usr/include/c++/9/fstream \
   /usr/include/c++/9/bits/codecvt.h \
   /usr/include/x86_64-linux-gnu/c++/9/bits/basic_file.h \
   /usr/include/x86_64-linux-gnu/c++/9/bits/c++io.h \
-  /usr/include/c++/9/bits/fstream.tcc
+  /usr/include/c++/9/bits/fstream.tcc \
+  /usr/include/c++/9/sstream \
+  /usr/include/c++/9/bits/sstream.tcc
 
 CMakeFiles/perceptron.dir/neuro.cpp.o: /mnt/d/Studies/Neuro/Lab\ 2/perceptron/neuro.cpp \
   /mnt/d/Studies/Neuro/Lab\ 2/perceptron/neuro.h \
@@ -427,14 +427,19 @@ CMakeFiles/perceptron.dir/neuro.cpp.o: /mnt/d/Studies/Neuro/Lab\ 2/perceptron/ne
   /usr/include/c++/9/bits/stl_algo.h \
   /usr/include/c++/9/bits/algorithmfwd.h \
   /usr/include/c++/9/bits/stl_heap.h \
-  /usr/include/c++/9/bits/stl_tempbuf.h
+  /usr/include/c++/9/bits/stl_tempbuf.h \
+  /usr/include/c++/9/fstream \
+  /usr/include/c++/9/bits/codecvt.h \
+  /usr/include/x86_64-linux-gnu/c++/9/bits/basic_file.h \
+  /usr/include/x86_64-linux-gnu/c++/9/bits/c++io.h \
+  /usr/include/c++/9/bits/fstream.tcc
 
+
+/usr/include/c++/9/sstream:
 
 /usr/include/x86_64-linux-gnu/c++/9/bits/c++io.h:
 
 /usr/include/c++/9/bits/codecvt.h:
-
-/usr/include/c++/9/sstream:
 
 /usr/include/c++/9/bits/stl_heap.h:
 

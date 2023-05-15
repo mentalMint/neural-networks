@@ -194,4 +194,9 @@ CMakeFiles/perceptron.dir/neuro.cpp.o: \
   /usr/bin/../lib/gcc/x86_64-linux-gnu/9/../../../../include/c++/9/bits/stl_algo.h \
   /usr/bin/../lib/gcc/x86_64-linux-gnu/9/../../../../include/c++/9/bits/algorithmfwd.h \
   /usr/bin/../lib/gcc/x86_64-linux-gnu/9/../../../../include/c++/9/bits/stl_heap.h \
-  /usr/bin/../lib/gcc/x86_64-linux-gnu/9/../../../../include/c++/9/bits/stl_tempbuf.h
+  /usr/bin/../lib/gcc/x86_64-linux-gnu/9/../../../../include/c++/9/bits/stl_tempbuf.h \
+  /usr/bin/../lib/gcc/x86_64-linux-gnu/9/../../../../include/c++/9/fstream \
+  /usr/bin/../lib/gcc/x86_64-linux-gnu/9/../../../../include/c++/9/bits/codecvt.h \
+  /usr/bin/../lib/gcc/x86_64-linux-gnu/9/../../../../include/x86_64-linux-gnu/c++/9/bits/basic_file.h \
+  /usr/bin/../lib/gcc/x86_64-linux-gnu/9/../../../../include/x86_64-linux-gnu/c++/9/bits/c++io.h \
+  /usr/bin/../lib/gcc/x86_64-linux-gnu/9/../../../../include/c++/9/bits/fstream.tcc

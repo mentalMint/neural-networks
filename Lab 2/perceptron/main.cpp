@@ -32,21 +32,8 @@ vector<vector<string>> parse_csv(const string &filename, char delimiter = ',') {
         stringstream ss(line);
         string field;
         while (getline(ss, field, delimiter)) {
-//            if (field.empty()) {
-//                skip = true;
-//                break;
-//            }
             fields.push_back(field);
-//            cout << field << ", ";
         }
-//        cout << endl;
-
-//        if (skip) {
-//            cout << "skip" << endl;
-//            skip = false;
-//            continue;
-//        }
-        // Add the fields to the result vector
         result.push_back(fields);
     }
 
@@ -232,28 +219,37 @@ void shuffle_rows(vector<vector<string>>& data) {
     shuffle(data.begin(), data.end(), gen);
 }
 
-int main() {
-    vector<vector<std::string>> dataset = parse_csv("//mnt/d/Studies/Neuro/Lab 2/perceptron/prepared_dataset.csv");
+
+void parse(const string& file, vector<vector<double>> &dataset_without_target, vector<vector<double>> &targets) {
+    vector<vector<std::string>> dataset = parse_csv(file);
     vector<vector<std::string>> dataset_without_target_string = remove_column(dataset, 0);
     dataset_without_target_string = remove_row(dataset_without_target_string, 0);
-    shuffle_rows(dataset_without_target_string);
     vector<vector<string>> targets_string = get_last_two_columns(dataset_without_target_string);
     dataset_without_target_string = remove_column(dataset_without_target_string, 23);
     dataset_without_target_string = remove_column(dataset_without_target_string, 23);
-    vector<vector<double>> dataset_without_target = convert_to_doubles(dataset_without_target_string);
-    vector<vector<double>> targets0 = convert_to_doubles(targets_string);
-    pair<vector<vector<double>>, vector<vector<double>>> datasets = split(dataset_without_target, 17);
-    pair<vector<vector<double>>, vector<vector<double>>> targets = split(targets0, 17);
 
-    size_t features_num = get_num_columns(dataset_without_target);
+    dataset_without_target = convert_to_doubles(dataset_without_target_string);
+    targets = convert_to_doubles(targets_string);
+}
+
+int main() {
+    vector<vector<double>> training_dataset_without_target;
+    vector<vector<double>> training_targets;
+    parse("training_dataset.csv", training_dataset_without_target, training_targets);
+
+    vector<vector<double>> testing_dataset_without_target;
+    vector<vector<double>> testing_targets;
+    parse("testing_dataset.csv", testing_dataset_without_target, testing_targets);
+
+    size_t features_num = get_num_columns(training_dataset_without_target);
     MLP mlp({features_num, 40, 40, 2});
-    mlp.train(datasets.first, targets.first, 5000, 0.01);
+    mlp.train(training_dataset_without_target, training_targets, 5000, 0.01);
 
-    for (size_t i = 0; i < datasets.second.size(); i++) {
-        vector<double> result = mlp.feedforward(datasets.second[i]);
+    for (size_t i = 0; i < testing_dataset_without_target.size(); i++) {
+        vector<double> result = mlp.feedforward(testing_dataset_without_target[i]);
         cout << endl;
         cout << "Predicted: " << result[0] << " " << result[1] << endl;
-        cout << "Real: " << targets.second[i][0] << " " << targets.second[i][1] << endl;
+        cout << "Real: " << testing_targets[i][0] << " " << testing_targets[i][1] << endl;
     }
     return 0;
 }
