@@ -24,7 +24,7 @@ private:
 //    ofstream mse_file = ofstream("mse.csv", ofstream::trunc);
 //    ofstream mae_file = ofstream("mae.csv", ofstream::trunc);
 //    ofstream r_squared_file = ofstream("r_squared.csv", ofstream::trunc);
-    ofstream results = ofstream("results.csv", ofstream::trunc);
+    ofstream results = ofstream("training_results.csv", ofstream::trunc);
 
     void apply_backpropagation(const vector<double> &inputs, const vector<double> &output,
                                const vector<double> &output_error,

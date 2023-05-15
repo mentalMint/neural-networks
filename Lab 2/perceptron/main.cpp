@@ -91,7 +91,7 @@ vector<string> get_column(const vector<vector<string>> &data, int col_index) {
     vector<string> result;
 
     // Iterate over the rows of the input data
-    for (const auto & i : data) {
+    for (const auto &i: data) {
         // Add the value in the desired column to the result vector
         result.push_back(i[col_index]);
     }
@@ -104,11 +104,11 @@ vector<vector<double>> convert_to_doubles(const vector<vector<string>> &data) {
     vector<vector<double>> result;
 
     // Iterate over the rows of the input data
-    for (const auto & i : data) {
+    for (const auto &i: data) {
         // Create a new row vector to hold the converted values
         vector<double> row;
         // Iterate over the columns of the input data
-        for (const auto & j : i) {
+        for (const auto &j: i) {
             // Convert the string value to a double
             double value;
             istringstream(j) >> value;
@@ -204,7 +204,7 @@ void normalize_column(vector<vector<double>> &matrix, vector<vector<double>> &no
     }
 }
 
-pair<vector<vector<double>>, vector<vector<double>>> split(const vector<vector<double>>& matrix, size_t split_row) {
+pair<vector<vector<double>>, vector<vector<double>>> split(const vector<vector<double>> &matrix, size_t split_row) {
     if (split_row >= matrix.size()) {
         throw runtime_error("Split row index is out of range");
     }
@@ -213,14 +213,14 @@ pair<vector<vector<double>>, vector<vector<double>>> split(const vector<vector<d
     return make_pair(first_half, second_half);
 }
 
-void shuffle_rows(vector<vector<string>>& data) {
+void shuffle_rows(vector<vector<string>> &data) {
     random_device rd;
     mt19937 gen(rd());
     shuffle(data.begin(), data.end(), gen);
 }
 
 
-void parse(const string& file, vector<vector<double>> &dataset_without_target, vector<vector<double>> &targets) {
+void parse(const string &file, vector<vector<double>> &dataset_without_target, vector<vector<double>> &targets) {
     vector<vector<std::string>> dataset = parse_csv(file);
     vector<vector<std::string>> dataset_without_target_string = remove_column(dataset, 0);
     dataset_without_target_string = remove_row(dataset_without_target_string, 0);
@@ -245,11 +245,19 @@ int main() {
     MLP mlp({features_num, 40, 40, 2});
     mlp.train(training_dataset_without_target, training_targets, 5000, 0.01);
 
+    ofstream testing_results("testing_results.csv");
+    testing_results << "Number";
+    for (int i = 0; i < 2; i++) {
+        testing_results << ",Predicted " << i << ",Real " << i;
+    }
+    testing_results << endl;
     for (size_t i = 0; i < testing_dataset_without_target.size(); i++) {
         vector<double> result = mlp.feedforward(testing_dataset_without_target[i]);
         cout << endl;
         cout << "Predicted: " << result[0] << " " << result[1] << endl;
         cout << "Real: " << testing_targets[i][0] << " " << testing_targets[i][1] << endl;
+        testing_results << i << "," << result[0] << "," << testing_targets[i][0] << "," << result[1] << ","
+                        << testing_targets[i][1] << endl;
     }
     return 0;
 }
