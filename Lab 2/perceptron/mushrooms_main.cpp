@@ -2,7 +2,6 @@
 #include <vector>
 #include <string>
 #include "csv.h"
-#include "neuro.h"
 #include "MLPClassifier.h"
 
 using namespace std;

@@ -3,9 +3,9 @@
 #include <vector>
 #include <fstream>
 
-#define SIGMOID_PARAM 1
+#define SIGMOID_PARAM 2.5
 
-MLP::MLP(const vector<size_t> &layer_sizes, const string& log_file_name = "training_results.csv") : layer_sizes(layer_sizes),
+MLP::MLP(const vector<size_t> &layer_sizes, const string& log_file_name) : layer_sizes(layer_sizes),
                                                                                              log_file_name(
                                                                                                      log_file_name) {
     for (size_t i = 0; i < layer_sizes.size() - 1; i++) {
@@ -48,7 +48,6 @@ vector<double> MLP::feedforward(const vector<double> &input) {
 //    cout << input[0] << endl;
     // Calculate the activations for each layer
     for (size_t i = 0; i < layer_sizes.size() - 1; i++) {
-        // Calculate the weighted inputs for this layer
         for (size_t j = 0; j < layer_sizes[i + 1]; j++) {
             double weighted_input = 0.0;
             for (size_t k = 0; k < layer_sizes[i]; k++) {
@@ -57,7 +56,6 @@ vector<double> MLP::feedforward(const vector<double> &input) {
             weighted_inputs[i][j] = weighted_input + biases[i][j];
         }
 
-        // Apply the activation function to the weighted inputs
         vector<double> layer_activations(layer_sizes[i + 1]);
         for (size_t j = 0; j < layer_sizes[i + 1]; j++) {
             layer_activations[j] = sigmoid(weighted_inputs[i][j]);
@@ -119,7 +117,6 @@ void MLP::apply_backpropagation(const vector<double> &inputs, const vector<doubl
         vector<double> layer_error(layer_sizes[j]);
         calculate_layer_error(j, layer_error, prev_layer_error, output_error);
         prev_layer_error = layer_error;
-        // Update the weights and biases for this layer
         for (size_t k = 0; k < layer_sizes[j]; k++) {
             for (size_t l = 0; l < layer_sizes[j - 1]; l++) {
                 weights[j - 1][k * layer_sizes[j - 1] + l] -=

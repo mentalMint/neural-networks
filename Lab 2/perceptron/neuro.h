@@ -44,7 +44,7 @@ protected:
     double sigmoid_derivative(double x);
 
 public:
-    explicit MLP(const vector<size_t> &layer_sizes, const string& log_file_name);
+    explicit MLP(const vector<size_t> &layer_sizes, const string& log_file_name = "training_results.csv");
 
     vector<double> feedforward(const vector<double> &input);
 

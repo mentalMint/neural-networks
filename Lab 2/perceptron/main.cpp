@@ -29,8 +29,8 @@ int main() {
 
     size_t features_num = get_num_columns(training_dataset_without_target);
     MLP mlp({features_num, 40, 40, 2});
+    mlp.enable_logging();
     mlp.train(training_dataset_without_target, training_targets, 5000, 0.01);
-
     ofstream testing_results("testing_results.csv");
     testing_results << "Number";
     for (int i = 0; i < 2; i++) {

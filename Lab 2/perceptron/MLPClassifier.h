@@ -1,7 +1,3 @@
-//
-// Created by rshuv on 17.05.2023.
-//
-
 #ifndef MAIN_CPP_MLPCLASSIFIER_H
 #define MAIN_CPP_MLPCLASSIFIER_H
 
@@ -14,8 +10,6 @@ private:
                                vector<double> output_error) override;
 
 public:
-    explicit MLPClassifier(const vector<size_t> &layerSizes);
-
     MLPClassifier(const vector<size_t> &layerSizes, const string &logFileName);
 };
 
