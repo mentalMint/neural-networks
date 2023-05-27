@@ -3,7 +3,7 @@
 #include <vector>
 #include <fstream>
 
-#define SIGMOID_PARAM 2.5
+#define SIGMOID_PARAM 1
 
 MLP::MLP(const vector<size_t> &layer_sizes, const string& log_file_name) : layer_sizes(layer_sizes),
                                                                                              log_file_name(
@@ -66,11 +66,18 @@ vector<double> MLP::feedforward(const vector<double> &input) {
     return activations.back();
 }
 
-void MLP::calculate_output_error(vector<double> output, const vector<double> &targets, vector<double> &output_error) {
+void MLP::calculate_output_error(vector<double> output, const vector<Neuron*> &targets, vector<double> &output_error) {
     for (size_t j = 0; j < output.size(); j++) {
-        output_error[j] = output[j] - targets[j];
-        if (log) {
-            results << "," << output[j] << "," << targets[j];
+        if (targets[j] != nullptr) {
+            output_error[j] = output[j] - targets[j]->value;
+            if (log) {
+                results << "," << output[j] << "," << targets[j]->value;
+            }
+        } else {
+            output_error[j] = 0;
+            if (log) {
+                results << "," << "None" << "," << "None";
+            }
         }
     }
     if (log) {
@@ -127,14 +134,12 @@ void MLP::apply_backpropagation(const vector<double> &inputs, const vector<doubl
     }
 }
 
-void MLP::train(const vector<vector<double>> &inputs, const vector<vector<double>> &targets, size_t epochs,
+void MLP::train(const vector<vector<double>> &inputs, const vector<vector<Neuron*>> &targets, size_t epochs,
                 double learning_rate) {
     if (inputs.size() != targets.size()) {
         throw runtime_error("Number of input rows does not match number of target rows");
     }
     for (size_t epoch = 0; epoch < epochs; epoch++) {
-        mean_squared_error = 0.0;
-
         // Shuffle the input and target rows
         vector<size_t> indices(inputs.size());
         for (size_t i = 0; i < inputs.size(); i++) {
@@ -157,4 +162,7 @@ void MLP::train(const vector<vector<double>> &inputs, const vector<vector<double
 //        mse_file << epoch + 1 << ", " << mean_squared_error << endl;
 //        mae_file << epoch + 1 << ", " << mean_absolute_error << endl;
     }
+}
+
+Neuron::Neuron(double value) : value(value) {
 }

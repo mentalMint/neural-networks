@@ -7,6 +7,7 @@
 #include <string>
 #include <sstream>
 #include <fstream>
+#include "neuro.h"
 
 using namespace std;
 
@@ -39,5 +40,6 @@ pair<vector<vector<double>>, vector<vector<double>>> split(const vector<vector<d
 std::vector<std::vector<std::string>> get_subtable(const std::vector<std::vector<std::string>>& table,
                                                    size_t startRow, size_t endRow,
                                                    size_t startColumn, size_t endColumn);
+vector<vector<Neuron*>> convert_to_neurons(const vector<vector<string>> &data);
 
 #endif //PERCEPTRON_CSV_H

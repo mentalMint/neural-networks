@@ -3,6 +3,7 @@
 //
 
 #include "csv.h"
+#include "neuro.h"
 
 vector<vector<string>> parse_csv(const string &filename, char delimiter) {
     // Open the CSV file for reading
@@ -104,6 +105,34 @@ vector<vector<double>> convert_to_doubles(const vector<vector<string>> &data) {
             istringstream(j) >> value;
             // Add the converted value to the row vector
             row.push_back(value);
+        }
+
+        // Add the converted row to the result vector
+        result.push_back(row);
+    }
+
+    return result;
+}
+
+vector<vector<Neuron*>> convert_to_neurons(const vector<vector<string>> &data) {
+    // Create a new vector to hold the result
+    vector<vector<Neuron*>> result;
+
+    // Iterate over the rows of the input data
+    for (const auto &i: data) {
+        // Create a new row vector to hold the converted values
+        vector<Neuron*> row;
+        // Iterate over the columns of the input data
+        for (const auto &j: i) {
+            // Convert the string value to a double
+            if (j.empty()) {
+                row.push_back(nullptr);
+            } else {
+                double value;
+                istringstream(j) >> value;
+                // Add the converted value to the row vector
+                row.push_back(new Neuron(value));
+            }
         }
 
         // Add the converted row to the result vector
